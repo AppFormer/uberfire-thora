@@ -7,9 +7,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.thoughtworks.xstream.XStream;
-import org.kie.commons.io.IOService;
-import org.kie.commons.java.nio.file.Path;
-import org.uberfire.backend.server.UserServicesImpl;
+import org.uberfire.backend.server.UserServicesBackendImpl;
+import org.uberfire.io.IOService;
+import org.uberfire.java.nio.file.Path;
 import org.uberfire.shared.repository.RepositoryInfo;
 
 @ApplicationScoped
@@ -22,7 +22,7 @@ public class UserActionsService {
     private IOService ioService;
 
     @Inject
-    private UserServicesImpl userServices;
+    private UserServicesBackendImpl userServices;
 
     @Inject
     private RepositoryAppServiceImpl repositoryAppService;

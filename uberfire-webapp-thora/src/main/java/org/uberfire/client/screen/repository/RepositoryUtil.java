@@ -3,7 +3,6 @@ package org.uberfire.client.screen.repository;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.HeadingElement;
 import com.google.gwt.dom.client.LIElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;

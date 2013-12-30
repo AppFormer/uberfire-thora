@@ -17,20 +17,22 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import org.jboss.errai.bus.client.api.RemoteCallback;
-import org.jboss.errai.ioc.client.api.Caller;
+import org.jboss.errai.common.client.api.Caller;
+import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.EventHandler;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.lifecycle.OnStartup;
+import org.uberfire.client.annotations.WorkbenchEditor;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
-import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.widgets.ace.AceEditor;
 import org.uberfire.client.widgets.ace.AceEditorCallback;
 import org.uberfire.client.widgets.ace.AceEditorMode;
 import org.uberfire.client.widgets.gravatar.GravatarImage;
+import org.uberfire.client.workbench.type.AnyResourceType;
+import org.uberfire.lifecycle.OnMayClose;
+import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.mvp.impl.PathPlaceRequest;
@@ -41,7 +43,7 @@ import org.uberfire.shared.source.SourceService;
 import static org.uberfire.client.screen.source.SourceBreadcrumbUtil.*;
 import static org.uberfire.client.widgets.ace.AceEditorTheme.*;
 
-@WorkbenchScreen(identifier = "SourceEdit")
+@WorkbenchEditor(identifier = "SourceEdit", supportedTypes = { AnyResourceType.class }, priority = Integer.MAX_VALUE)
 @Templated("source-edit.html")
 public class SourceEdit extends Composite {
 
@@ -101,7 +103,7 @@ public class SourceEdit extends Composite {
     private String previewPlace = "";
 
     @Inject
-    Event<EditorTextContentChanged> event;
+    private Event<EditorTextContentChanged> event;
 
     private String fileName;
 
@@ -115,8 +117,14 @@ public class SourceEdit extends Composite {
         editor.setTheme( CHROME );
     }
 
+    @OnMayClose
+    public boolean onMayClose() {
+        return Window.confirm( "Confirm close?" );
+    }
+
     @OnStartup
-    public void onStartup( final PlaceRequest placeRequest ) {
+    public void onStartup( final Path path,
+                           final PlaceRequest placeRequest ) {
         this.placeRequest = (PathPlaceRequest) placeRequest;
         this.repo = placeRequest.getParameter( "repo", "" );
         this.fileName = placeRequest.getParameter( "file_name", "" );

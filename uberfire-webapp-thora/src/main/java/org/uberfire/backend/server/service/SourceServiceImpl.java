@@ -10,10 +10,10 @@ import javax.inject.Named;
 
 import com.thoughtworks.xstream.XStream;
 import org.jboss.errai.bus.server.annotations.Service;
-import org.kie.commons.io.IOService;
-import org.kie.commons.java.nio.base.options.CommentedOption;
-import org.kie.commons.java.nio.file.Path;
 import org.uberfire.backend.server.util.Paths;
+import org.uberfire.io.IOService;
+import org.uberfire.java.nio.base.options.CommentedOption;
+import org.uberfire.java.nio.file.Path;
 import org.uberfire.shared.source.PathContentUpdated;
 import org.uberfire.shared.source.SourceContent;
 import org.uberfire.shared.source.SourceLinedContent;
@@ -33,23 +33,20 @@ public class SourceServiceImpl implements SourceService {
     private IOService ioService;
 
     @Inject
-    private Paths paths;
-
-    @Inject
     private Event<PathContentUpdated> contentUpdatedEvent;
 
     @Override
     public SourceLinedContent getLinedContent( final org.uberfire.backend.vfs.Path _path ) {
-        final Path path = paths.convert( _path );
+        final Path path = Paths.convert( _path );
         final List<String> fileContent = ioService.readAllLines( path, Charset.defaultCharset() );
 
-        return new SourceLinedContent( fileContent, breadcrumb( path ), paths.convert( path.getParent() ) );
+        return new SourceLinedContent( fileContent, breadcrumb( path ), Paths.convert( path.getParent() ) );
     }
 
     @Override
     public SourceContent getContent( final org.uberfire.backend.vfs.Path _path,
                                      final String fileName ) {
-        final Path path = paths.convert( _path ).resolve( fileName );
+        final Path path = Paths.convert( _path ).resolve( fileName );
 
         String fileContent;
         try {
@@ -78,13 +75,13 @@ public class SourceServiceImpl implements SourceService {
             message.append( "\n" + desc );
         }
 
-        final Path realPath = paths.convert( path ).resolve( fileName );
+        final Path realPath = Paths.convert( path ).resolve( fileName );
 
         ioService.write( realPath, content, new CommentedOption( userName, email, message.toString() ) );
 
         userServices.storeLastContrib( userName, repo );
 
-        contentUpdatedEvent.fire( new PathContentUpdated( paths.convert( realPath ) ) );
+        contentUpdatedEvent.fire( new PathContentUpdated( Paths.convert( realPath ) ) );
     }
 
     private List<String> breadcrumb( final Path path ) {

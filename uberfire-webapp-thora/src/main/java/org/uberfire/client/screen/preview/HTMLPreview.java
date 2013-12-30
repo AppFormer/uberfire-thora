@@ -10,10 +10,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.screen.source.EditorTextContentChanged;
+import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.mvp.PlaceRequest;
 
 @Dependent

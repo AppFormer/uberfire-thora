@@ -9,9 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.errai.bus.server.annotations.Service;
-import org.kie.commons.io.IOService;
 import org.uberfire.backend.repositories.Repository;
 import org.uberfire.backend.repositories.RepositoryService;
+import org.uberfire.io.IOService;
 import org.uberfire.shared.repository.NewRepositoryInfo;
 import org.uberfire.shared.repository.RepositoryAlreadyExists;
 import org.uberfire.shared.repository.RepositoryAppService;
@@ -54,7 +54,7 @@ public class RepositoryAppServiceImpl implements RepositoryAppService {
             put( "init", init );
         }} );
 
-        final RepositoryInfo repositoryInfo = new RepositoryInfo( owner, name, description, newRepository.getPublicUri() );
+        final RepositoryInfo repositoryInfo = new RepositoryInfo( owner, name, description, newRepository.getPublicURIs().get( 0 ).getURI() );
 
         userServices.store( owner, repositoryInfo );
 
@@ -80,7 +80,7 @@ public class RepositoryAppServiceImpl implements RepositoryAppService {
             put( "desc", description );
         }} );
 
-        final RepositoryInfo repositoryInfo = new RepositoryInfo( owner, name, description, newRepository.getPublicUri(), origin );
+        final RepositoryInfo repositoryInfo = new RepositoryInfo( owner, name, description, newRepository.getPublicURIs().get( 0 ).getURI(), origin );
 
         userServices.store( owner, repositoryInfo );
 
@@ -97,7 +97,7 @@ public class RepositoryAppServiceImpl implements RepositoryAppService {
 
         final String origin = repository.getEnvironment().get( "origin" ) != null ? repository.getEnvironment().get( "origin" ).toString() : "";
 
-        return new RepositoryInfo( repository.getEnvironment().get( "owner" ).toString(), name, repository.getEnvironment().get( "desc" ).toString(), repository.getPublicUri(), origin, repository.getRoot() );
+        return new RepositoryInfo( repository.getEnvironment().get( "owner" ).toString(), name, repository.getEnvironment().get( "desc" ).toString(), repository.getPublicURIs().get( 0 ).getURI(), origin, repository.getRoot() );
     }
 
     @Override
@@ -110,7 +110,7 @@ public class RepositoryAppServiceImpl implements RepositoryAppService {
         final List<RepositoryInfo> result = new ArrayList<RepositoryInfo>();
         for ( final Repository repository : repositoryService.getRepositories() ) {
             final String origin = repository.getEnvironment().get( "origin" ) != null ? repository.getEnvironment().get( "origin" ).toString() : "";
-            result.add( new RepositoryInfo( repository.getEnvironment().get( "owner" ).toString(), repository.getAlias(), repository.getEnvironment().get( "desc" ).toString(), repository.getPublicUri(), origin, repository.getRoot() ) );
+            result.add( new RepositoryInfo( repository.getEnvironment().get( "owner" ).toString(), repository.getAlias(), repository.getEnvironment().get( "desc" ).toString(), repository.getPublicURIs().get( 0 ).getURI(), origin, repository.getRoot() ) );
         }
 
         return result;

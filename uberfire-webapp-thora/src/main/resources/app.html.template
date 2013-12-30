@@ -292,9 +292,6 @@
         }
 
     </style>
-
-    <!-- styles -->
-    <link href="css/uberfire-workbench.css" rel="stylesheet" >
 </head>
 <body>
 <iframe id="__gwt_historyFrame" style="width: 0; height: 0; border: 0"></iframe>
@@ -312,16 +309,6 @@
 <!-- The GWT js file generated at run time -->
 <script type="text/javascript" src='org.uberfire.UberThora.nocache.js'></script>
 
-<script src="../js/ZeroClipboard.min.js"></script>
-<script type="text/javascript">
-    ZeroClipboard.setDefaults( {
-      moviePath: "../swf/ZeroClipboard.swf",
-      trustedDomains: ['*'],
-      allowScriptAccess: "always" })
-</script>
-
-
-<script src="ace/require.js" type="text/javascript" charset="utf-8"></script>
 <script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <!-- Get .js files for any needed ACE modes and themes -->
 <script src="ace/theme-github.js" type="text/javascript" charset="utf-8"></script>
